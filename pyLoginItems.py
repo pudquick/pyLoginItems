@@ -14,6 +14,9 @@
 # Example usage:
 #
 # import pyLoginItems
+# >>> pyLoginItems.list_login_items()
+# [u'/Applications/Dropbox.app', u'/Applications/iTunes.app/Contents/MacOS/iTunesHelper.app']
+#
 # pyLoginItems.add_login_item('/Applications/Safari.app', 0)
 # pyLoginItems.remove_login_item('/Applications/TextEdit.app')
 
