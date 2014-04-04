@@ -82,11 +82,6 @@ def add_login_item(path_to_item, position=-1):
     # Your index calculations are invalidated by OS X because you shift an item, possibly shifting the
     # indexes of other items in the list.
     # It's easier to just remove it first, then re-add it.
-    # However, we'll keep the indexing for re-insertion based on the list prior to removal.
-    # Three possible cases:
-    #  - Moving a new/old item to the beginning - special case
-    #  - Moving an old item
-    #  - Adding a new item
     current_paths = list_login_items()
     if (len(current_items) == 0) or (position == -1):
         # Either there's nothing there or it wants to be last
