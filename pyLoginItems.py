@@ -9,7 +9,13 @@
 # kLSSharedFileListSessionLoginItems
 # kLSSharedFileListGlobalLoginItems - deprecated in 10.9
 
-# Runs in user space
+# Runs in user space, use this with a login script / launchd item / something running as the user
+
+# Example usage:
+#
+# import pyLoginItems
+# pyLoginItems.add_login_item('/Applications/Safari.app', 0)
+# pyLoginItems.remove_login_item('/Applications/TextEdit.app')
 
 from Foundation import NSURL
 from LaunchServices import LSSharedFileListCreate, LSSharedFileListCopySnapshot, \
