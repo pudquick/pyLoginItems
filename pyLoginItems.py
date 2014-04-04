@@ -12,7 +12,10 @@
 # Runs in user space
 
 from Foundation import NSURL
-from LaunchServices import LSSharedFileListCreate, LSSharedFileListCopySnapshot, LSSharedFileListItemRemove, LSSharedFileListItemResolve, LSSharedFileListInsertItemURL, kLSSharedFileListSessionLoginItems, kLSSharedFileListNoUserInteraction, kLSSharedFileListItemBeforeFirst, kLSSharedFileListItemLast
+from LaunchServices import LSSharedFileListCreate, LSSharedFileListCopySnapshot, \
+                    LSSharedFileListItemRemove, LSSharedFileListItemResolve, LSSharedFileListInsertItemURL, \
+                    kLSSharedFileListSessionLoginItems, kLSSharedFileListNoUserInteraction, \
+                    kLSSharedFileListItemBeforeFirst, kLSSharedFileListItemLast
 
 def _get_login_items():
     # Setup the type of shared list reference we want
