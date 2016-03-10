@@ -20,11 +20,33 @@
 # pyLoginItems.add_login_item('/Applications/Safari.app', 0)
 # pyLoginItems.remove_login_item('/Applications/TextEdit.app')
 
+from platform import mac_ver
 from Foundation import NSURL
-from LaunchServices import LSSharedFileListCreate, LSSharedFileListCopySnapshot, \
-                    LSSharedFileListItemRemove, LSSharedFileListItemResolve, LSSharedFileListInsertItemURL, \
-                    kLSSharedFileListSessionLoginItems, kLSSharedFileListNoUserInteraction, \
-                    kLSSharedFileListItemBeforeFirst, kLSSharedFileListItemLast
+from LaunchServices import kLSSharedFileListSessionLoginItems, kLSSharedFileListNoUserInteraction
+
+# Need to manually load in 10.11.x+
+os_vers = int(mac_ver()[0].split('.')[1])
+if os_vers > 10:
+    from Foundation import NSBundle
+    import objc
+    SFL_bundle = NSBundle.bundleWithIdentifier_('com.apple.coreservices.SharedFileList')
+    functions  = [('LSSharedFileListCreate',              '^{OpaqueLSSharedFileListRef=}^{__CFAllocator=}^{__CFString=}@'),
+                  ('LSSharedFileListCopySnapshot',        '^{__CFArray=}^{OpaqueLSSharedFileListRef=}o^I'),
+                  ('LSSharedFileListItemCopyDisplayName', '^{__CFString=}^{OpaqueLSSharedFileListItemRef=}'),
+                  ('LSSharedFileListItemResolve',         'i^{OpaqueLSSharedFileListItemRef=}Io^^{__CFURL=}o^{FSRef=[80C]}'),
+                  ('LSSharedFileListItemMove',            'i^{OpaqueLSSharedFileListRef=}^{OpaqueLSSharedFileListItemRef=}^{OpaqueLSSharedFileListItemRef=}'),
+                  ('LSSharedFileListItemRemove',          'i^{OpaqueLSSharedFileListRef=}^{OpaqueLSSharedFileListItemRef=}'),
+                  ('LSSharedFileListInsertItemURL',       '^{OpaqueLSSharedFileListItemRef=}^{OpaqueLSSharedFileListRef=}^{OpaqueLSSharedFileListItemRef=}^{__CFString=}^{OpaqueIconRef=}^{__CFURL=}^{__CFDictionary=}^{__CFArray=}'),
+                  ('kLSSharedFileListItemBeforeFirst',    '^{OpaqueLSSharedFileListItemRef=}'),
+                  ('kLSSharedFileListItemLast',           '^{OpaqueLSSharedFileListItemRef=}'),]
+    objc.loadBundleFunctions(SFL_bundle, globals(), functions)
+else:
+    from LaunchServices import kLSSharedFileListItemBeforeFirst, kLSSharedFileListItemLast, \
+                               LSSharedFileListCreate, LSSharedFileListCopySnapshot, \
+                               LSSharedFileListItemCopyDisplayName, LSSharedFileListItemResolve, \
+                               LSSharedFileListItemMove, LSSharedFileListItemRemove, \
+                               LSSharedFileListInsertItemURL
+
 
 def _get_login_items():
     # Setup the type of shared list reference we want
